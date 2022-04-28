@@ -1,31 +1,35 @@
 <script setup>
 import {ref, computed} from "vue";
 
-const props = defineProps({
-  label: {
-    type: "String",
-  }
-})
+// const props = defineProps({
+//   label: {
+//     type: "String",
+//   }
+// })
 
-let label = computed({
-  get() {
-    console.log(`get label=`, label);
-    return props.label
-  },
-  set(value) {
-    console.log(`set label=`, label);
-    emit("onSubmit:label", value)
-  }
-})
+const label = ref("")
+
+// let label = computed({
+//   get() {
+//     console.log(`get label=`, label);
+//     return props.label
+//   },
+//   set(value) {
+//     console.log(`set label=`, label);
+//     emit("onSubmit:label", value)
+//   }
+// })
 
   function onSubmit() {
     console.log(`onSubmit 1 label=`, label);
     emit('todo-added', label);
     console.log(`onSubmit 2 label=`, label);
-    label = "";
+    //label = "";
   }
 
   const emit = defineEmits(['onSubmit:label', 'onSubmit', 'todo-added:label', 'todo-added'])
+
+  defineExpose({ label })
 </script>
 
 <template>

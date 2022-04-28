@@ -25,9 +25,10 @@ const TodoItems = reactive( [
 
 
 
- function addToDo(label) {
+ function addToDo(label: any) {
    console.log(`addToDo label=`,label);
   TodoItems.push({id:uniqueId('todo-'), label: label, done: false});
+  console.log(`TodoItems: `, TodoItems);
 }
 
 </script>
@@ -35,7 +36,7 @@ const TodoItems = reactive( [
 <template>
   <div id="app">
     <h1>My To-Do List</h1>
-    <todo-form @todo-added="addToDo"/>
+    <todo-form @todo-added="addToDo"></todo-form>
     <ul aria-labelledby="list-summary" class="stack-large">
       <li v-for="item in TodoItems" :key="item.id">
         <todo-item :label="item.label" :done="item.done" :id="item.id"></todo-item>
