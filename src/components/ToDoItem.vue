@@ -6,10 +6,12 @@
       id: {required: true, type: String}
     })
 
+  const emits = defineEmits(["checkbox-changed"])
+
 </script>
 
 <template>
-  <input type="checkbox" :id="id" :checked="done"/>
+  <input type="checkbox" :id="id" :checked="done" @change="$emit('checkbox-changed')"/>
   &nbsp; &nbsp;
   <label :for="id">{{label}}</label>
 

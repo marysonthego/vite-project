@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, reactive} from "vue";
+import {ref, reactive, computed} from "vue";
 import TodoItem from "./components/TodoItem.vue";
 import TodoForm from './components/TodoForm.vue';
 import uniqueId from "lodash.uniqueid";
@@ -23,13 +23,22 @@ const TodoItems = reactive( [
     id: uniqueId("todo-") }
 ]);
 
-
-
  function addToDo(label: string) {
    console.log(`addToDo label=`,label);
   TodoItems.push({id:uniqueId('todo-'), label: label, done: false});
   console.log(`TodoItems: `, TodoItems);
 }
+
+const updateDoneStatus = (todoId) => {
+  const todoToUpdate = TodoItems.find(item => item.id === todoId)
+  todoToUpdate.done = !todoToUpdate.done
+}
+
+  const listSummary = computed(() => {
+    const numberFinishedItems = TodoItems.filter(item =>item.done).length
+    return `${numberFinishedItems} out of ${TodoItems.length} items completed`
+  })
+
 
 </script>
 
@@ -37,9 +46,10 @@ const TodoItems = reactive( [
   <div id="app">
     <h1>My To-Do List</h1>
     <todo-form @todo-added="addToDo"></todo-form>
+    <h2 id="list-summary">{{listSummary}}</h2>
     <ul aria-labelledby="list-summary" class="stack-large">
       <li v-for="item in TodoItems" :key="item.id">
-        <todo-item :label="item.label" :done="item.done" :id="item.id"></todo-item>
+        <todo-item :label="item.label" :done="item.done" :id="item.id" @checkbox-changed="updateDoneStatus(item.id)"></todo-item>
       </li>
     </ul>
   </div>

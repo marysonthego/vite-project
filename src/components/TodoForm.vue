@@ -1,19 +1,22 @@
 <script setup>
 import {ref} from "vue";
-//import {reactive} from "vue";
 
 const label = ref('')
 
   function onSubmit() {
+    if(label.value === '') {
+      return;
+    }
     const alabel = label.value;
     console.log(`onSubmit label=`, label);
     console.log(`onSubmit alabel=`, alabel);
+    label.value = '';
+    console.log(`onSubmit label=`, label);
     emit('todo-added', alabel);
   }
 
-  const emit = defineEmits(['onSubmit:label', 'onSubmit', 'todo-added:alabel', 'todo-added'])
+  const emit = defineEmits(['todo-added:alabel', 'todo-added'])
 
-  defineExpose({ label })
 </script>
 
 <template>
