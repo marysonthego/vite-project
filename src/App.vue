@@ -25,7 +25,7 @@ const TodoItems = reactive( [
 
 
 
- function addToDo(label: any) {
+ function addToDo(label: string) {
    console.log(`addToDo label=`,label);
   TodoItems.push({id:uniqueId('todo-'), label: label, done: false});
   console.log(`TodoItems: `, TodoItems);

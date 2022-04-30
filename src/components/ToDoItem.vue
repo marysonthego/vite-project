@@ -10,6 +10,7 @@
 
 <template>
   <input type="checkbox" :id="id" :checked="done"/>
+  &nbsp; &nbsp;
   <label :for="id">{{label}}</label>
 
 </template>
