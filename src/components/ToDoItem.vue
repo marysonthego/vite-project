@@ -1,20 +1,58 @@
 <script setup>
+import {ref} from "vue";
+import TodoItemEditForm from "./TodoItemEditForm.vue";
 
-  const props = defineProps({
-      label:{required: true, default: "Default Label", type: String},
-      done:{default: false, type: Boolean},
-      id: {required: true, type: String}
-    })
+const props = defineProps({
+  label: { required: true, default: "Default Label", type: String },
+  done: { default: false, type: Boolean },
+  id: { required: true, type: String },
+});
 
-  const emits = defineEmits(["checkbox-changed"])
+const isEditing = ref(false);
 
+const deleteToDo = () => {
+  emit('item-deleted');
+};
+
+const toggleToItemEditForm = () => {
+  isEditing.value = true;
+}
+
+const itemEdited = (newLabel) => {
+  emit('item-edited', newLabel);
+  isEditing.value = false;
+}
+
+const editCancelled = () => {
+  isEditing.value = false;
+}
+
+
+const emit = defineEmits(["checkbox-changed", 'item-deleted', 'item-edited:newLabel', 'item-edited']);
 </script>
 
 <template>
-  <input type="checkbox" :id="id" :checked="done" @change="$emit('checkbox-changed')"/>
-  &nbsp; &nbsp;
-  <label :for="id">{{label}}</label>
-
+  <div class="stack-small" v-if="!isEditing">
+    <div class="custom-checkbox">
+      <input
+        type="checkbox"
+        :id="id"
+        :checked="done"
+        @change="emit('checkbox-changed')"
+      />
+      <label :for="id" class="checkbox-label">{{ label }}</label>
+    </div>
+    <div class="btn-group">
+      <button type="button" class="btn" @click="toggleToItemEditForm">
+        Edit <span class="visually-hidden">{{ label }}</span>
+      </button>
+      <button type="button" class="btn btn__danger" @click="deleteToDo">
+        Delete <span class="visually-hidden">{{ label }}</span>
+      </button>
+    </div>
+  </div>
+  <todo-item-edit-form v-else  :id="id" :label="label" @item-edited="itemEdited"
+  @edit-cancelled="editCancelled"></todo-item-edit-form>
 </template>
 
 <style scoped>
@@ -132,5 +170,4 @@
     line-height: 1.31579;
   }
 }
-
 </style>

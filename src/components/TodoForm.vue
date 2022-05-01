@@ -17,6 +17,10 @@ const label = ref('')
 
   const emit = defineEmits(['todo-added:alabel', 'todo-added'])
 
+  const vFocus = {
+  mounted: (el) => el.focus()
+}
+
 </script>
 
 <template>
@@ -27,6 +31,7 @@ const label = ref('')
       </label>
     </h2>
     <input
+    v-focus
       type="text"
       id="new-todo-input"
       name="new-todo"
