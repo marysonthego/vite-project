@@ -27,7 +27,6 @@ const editCancelled = () => {
   isEditing.value = false;
 }
 
-
 const emit = defineEmits(["checkbox-changed", 'item-deleted', 'item-edited:newLabel', 'item-edited']);
 </script>
 

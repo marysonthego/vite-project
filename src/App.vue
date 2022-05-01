@@ -1,70 +1,74 @@
 <script setup lang="ts">
-import {ref, reactive, computed} from "vue";
+import { ref, reactive, computed } from "vue";
 import TodoItem from "./components/TodoItem.vue";
-import TodoForm from './components/TodoForm.vue';
+import TodoForm from "./components/TodoForm.vue";
 import uniqueId from "lodash.uniqueid";
 
-const TodoItems = reactive( [
+const TodoItems = reactive([
   {
     label: "Learn Vue",
     done: false,
-    id: uniqueId("todo-")},
+    id: uniqueId("todo-"),
+  },
   {
     label: "Create a Vue project with the CLI",
     done: true,
     id: uniqueId("todo-"),
   },
-  { label: "Have fun",
-    done: true,
-    id: uniqueId("todo-") },
+  { label: "Have fun", done: true, id: uniqueId("todo-") },
   {
     label: "Create a to-do list",
     done: false,
-    id: uniqueId("todo-") }
+    id: uniqueId("todo-"),
+  },
 ]);
 
- function addToDo(label: string) {
-   console.log(`addToDo label=`,label);
-  TodoItems.push({id:uniqueId('todo-'), label: label, done: false});
+function addToDo(label: string) {
+  console.log(`addToDo label=`, label);
+  TodoItems.push({ id: uniqueId("todo-"), label: label, done: false });
   console.log(`TodoItems: `, TodoItems);
 }
 
-  const updateDoneStatus = (todoId: string) => {
-    const todoToUpdate = TodoItems.find(item => item.id === todoId)
-    todoToUpdate.done = !todoToUpdate.done
-  }
+const updateDoneStatus = (todoId: string) => {
+  const todoToUpdate = TodoItems.find((item) => item.id === todoId);
+  todoToUpdate.done = !todoToUpdate.done;
+};
 
-  const listSummary = computed(() => {
-    const numberFinishedItems = TodoItems.filter(item =>item.done).length
-    return `${numberFinishedItems} out of ${TodoItems.length} items completed`
-  })
+const listSummary = computed(() => {
+  const numberFinishedItems = TodoItems.filter((item) => item.done).length;
+  return `${numberFinishedItems} out of ${TodoItems.length} items completed`;
+});
 
-  const deleteTodo = (todoId) => {
-    const itemIndex = TodoItems.findIndex(item => item.id === todoId);
-    TodoItems.splice(itemIndex, 1);
-  };
+const deleteTodo = (todoId) => {
+  const itemIndex = TodoItems.findIndex((item) => item.id === todoId);
+  TodoItems.splice(itemIndex, 1);
+};
 
-  const editTodo = (todoId, newLabel) => {
-    const todoToEdit = TodoItems.find(item => item.id === todoId);
-    todoToEdit.label = newLabel;
-  }
+const editTodo = (todoId, newLabel) => {
+  const todoToEdit = TodoItems.find((item) => item.id === todoId);
+  todoToEdit.label = newLabel;
+};
 
-  const vFocus = {
-  mounted: (el) => el.focus()
-}
-
-
+const vFocus = {
+  mounted: (el) => el.focus(),
+};
 </script>
 
 <template>
   <div id="app">
     <h1>My To-Do List</h1>
     <todo-form @todo-added="addToDo"></todo-form>
-    <h2 id="list-summary">{{listSummary}}</h2>
+    <h2 id="list-summary">{{ listSummary }}</h2>
     <ul aria-labelledby="list-summary" class="stack-large">
       <li v-for="item in TodoItems" :key="item.id">
-        <todo-item :label="item.label" :done="item.done" :id="item.id" @checkbox-changed="updateDoneStatus(item.id)" @item-deleted="deleteTodo(item.id)"
-            @item-edited="editTodo(item.id, $event)"></todo-item>
+        <todo-item
+          :label="item.label"
+          :done="item.done"
+          :id="item.id"
+          @checkbox-changed="updateDoneStatus(item.id)"
+          @item-deleted="deleteTodo(item.id)"
+          @item-edited="editTodo(item.id, $event)"
+        ></todo-item>
       </li>
     </ul>
   </div>
