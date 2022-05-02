@@ -1,12 +1,10 @@
 <script setup>
 import { ref, reactive, computed } from "vue";
 import { useTodos } from './stores/TodoStore'
-import { storeToRefs } from 'pinia'
 import TodoItem from "./components/TodoItem.vue";
 import TodoForm from "./components/TodoForm.vue";
 import uniqueid from "lodash.uniqueid";
 
-const todostore = useTodos()
 
 // `name` and `doubleCount` are reactive refs
     // This will also create refs for properties added by plugins
