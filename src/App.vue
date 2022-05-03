@@ -1,9 +1,17 @@
-<script setup lang="ts">
+<script setup>
 import { ref, reactive, computed } from "vue";
+import { useTodos } from './stores/TodoStore'
 import TodoItem from "./components/TodoItem.vue";
 import TodoForm from "./components/TodoForm.vue";
-import uniqueId from "lodash.uniqueid";
+import uniqueid from "lodash.uniqueid";
 
+
+// `name` and `doubleCount` are reactive refs
+    // This will also create refs for properties added by plugins
+    // but skip any action or non reactive (non ref/reactive) property
+    const { label, done, id } = storeToRefs(todostore)
+    // the increment action can be just extracted
+    const { addTodo } = todostore
 const TodoItems = reactive([
   {
     label: "Learn Vue",
@@ -23,13 +31,13 @@ const TodoItems = reactive([
   },
 ]);
 
-function addToDo(label: string) {
+function addToDo(label) {
   console.log(`addToDo label=`, label);
   TodoItems.push({ id: uniqueId("todo-"), label: label, done: false });
   console.log(`TodoItems: `, TodoItems);
 }
 
-const updateDoneStatus = (todoId: string) => {
+const updateDoneStatus = (todoId) => {
   const todoToUpdate = TodoItems.find((item) => item.id === todoId);
   todoToUpdate.done = !todoToUpdate.done;
 };

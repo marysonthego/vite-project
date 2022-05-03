@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "lodash.uniqueid": "^4.0.1",
+    "pinia": "^2.0.13",
     "vue": "^3.2.25"
   },
   "devDependencies": {
